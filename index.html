@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DOM</title>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        const form = document.createElement('form');
+    
+        const inputs = [
+            { id: 'firstName', type: 'text', placeholder: 'First Name' },
+            { id: 'lastName', type: 'text', placeholder: 'Last Name' },
+            { id: 'email', type: 'email', placeholder: 'Email Address' },
+            { id: 'password', type: 'password', placeholder: 'Password' },
+            { id: 'confirmPassword', type: 'password', placeholder: 'Confirm Password' }
+        ];
+    
+        inputs.forEach(inputConfig => {
+            const input = document.createElement('input');
+            input.id = inputConfig.id;
+            input.type = inputConfig.type;
+            input.placeholder = inputConfig.placeholder;
+            form.appendChild(input);
+            form.appendChild(document.createElement('br')); 
+        });
+    
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.textContent = 'Register';
+        form.appendChild(submitButton);
+    
+        const errorDiv = document.createElement('div');
+        errorDiv.id = 'error';
+        errorDiv.style.color = 'red';
+        form.appendChild(errorDiv);
+    
+        document.getElementById('app').appendChild(form);
+    
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            errorDiv.textContent = ''; 
+    
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+    
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+            if (!firstName || !lastName || !email || !password || !confirmPassword) {
+                errorDiv.textContent = 'All fields are required.';
+                return;
+            }
+    
+            if (!emailRegex.test(email)) {
+                errorDiv.textContent = 'Please enter a valid email address.';
+                return;
+            }
+    
+            if (password !== confirmPassword) {
+                errorDiv.textContent = 'Passwords do not match.';
+                return;
+            }
+    
+            alert('Registration successful!');
+        });
+    
+    </script>
+    
+</body>
+</html>
